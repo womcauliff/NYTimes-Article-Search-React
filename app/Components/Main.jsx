@@ -14,31 +14,34 @@ class Main extends React.Component{
 		super(props);
 
 		this.state = {
-			searchTerm: "",
+			queryTopic: "",
+			queryStartYear: "",
+			queryEndYear: "",
 			results: []
 		}
 
-		this.setTerm = this.setTerm.bind(this);
+		this.setQueries = this.setQueries.bind(this);
 	}
 
-	setTerm(term){
+	setQueries(queryTopic, queryStartYear, queryEndYear){
 		this.setState({
-			searchTerm: term
-		})
+			queryTopic: queryTopic,
+			queryStartYear: queryStartYear,
+			queryEndYear: queryEndYear
+		});
 	}
 
 	componentDidUpdate(prevProps, prevState){
 
-		if(prevState.searchTerm != this.state.searchTerm){
-			console.log("UPDATED");
-
-			helpers.runQuery(this.state.searchTerm)
+		if(
+			prevState.queryTopic != this.state.queryTopic ||
+			prevState.queryStartYear != this.state.queryStartYear ||
+			prevState.queryEndYear != this.state.queryEndYear
+		){
+			helpers.runQuery(this.state.queryTopic, this.state.queryStartYear, this.state.queryEndYear)
 				.then((data)=>{
 					if (data != this.state.results)
 					{
-						console.log("HERE");
-						console.log(data);
-
 						this.setState({
 							results: data
 						})		
@@ -59,16 +62,16 @@ class Main extends React.Component{
 
 					<div className="jumbotron">
 						<h1 className="text-center">NYTimes Article Search</h1>
-						<p className="text-center"><em>Enter a landmark to search for its exact address (ex: "Eiffel Tower").</em></p>
+						<p className="text-center"><em>Search New York Times articles from Sept. 18, 1851 to today.</em></p>
 					</div>
 
-					<div className="col-md-6">
+					<div className="col-md-12">
 					
-						<Form setTerm={this.setTerm}/>
+						<Form setQueries={this.setQueries}/>
 
 					</div>
 
-					<div className="col-md-6">
+					<div className="col-md-12">
 				
 						<Results results={this.state.results} />
 
