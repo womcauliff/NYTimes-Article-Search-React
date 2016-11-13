@@ -21752,8 +21752,9 @@
 			value: function render() {
 				var resultItems = this.props.results.map(function (result) {
 					return _react2.default.createElement(_ResultItem2.default, {
-						articleLink: result.headline.main,
-						articleTitle: result.web_url
+						key: result._id,
+						articleLink: result.web_url,
+						articleTitle: result.headline.main
 					});
 				});
 				return _react2.default.createElement(
@@ -23281,6 +23282,10 @@
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -23312,7 +23317,7 @@
 					null,
 					_react2.default.createElement(
 						"a",
-						{ href: "{this.props.articleLink}" },
+						{ href: this.props.articleLink, target: "_blank" },
 						this.props.articleTitle
 					)
 				);
@@ -23321,6 +23326,8 @@
 
 		return ResultItem;
 	}(_react2.default.Component);
+
+	exports.default = ResultItem;
 
 /***/ }
 /******/ ]);

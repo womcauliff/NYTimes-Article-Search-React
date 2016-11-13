@@ -9,8 +9,9 @@ class Results extends React.Component{
 	render(){
 		var resultItems = this.props.results.map(function(result) {
 			return <ResultItem 
-						articleLink={result.headline.main}
-						articleTitle={result.web_url}
+						key={result._id}
+						articleLink={result.web_url}
+						articleTitle={result.headline.main}
 					/>
 		});
 		return(
@@ -25,7 +26,7 @@ class Results extends React.Component{
 					</ul>
 				</div>
 			</div>
-		)		
+		);
 	}
 }
 
