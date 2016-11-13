@@ -8,10 +8,15 @@ class Results extends React.Component{
 
 	render(){
 		var resultItems = this.props.results.map(function(result) {
+			var articleTitle = "";
+			if(result.headline.kicker) {
+				articleTitle = result.headline.kicker + "; ";
+			}
+			articleTitle += result.headline.main;
 			return <ResultItem 
 						key={result._id}
 						articleLink={result.web_url}
-						articleTitle={result.headline.main}
+						articleTitle={articleTitle}
 					/>
 		});
 		return(
@@ -20,7 +25,6 @@ class Results extends React.Component{
 					<h3 className="panel-title text-center">Results</h3>
 				</div>
 				<div className="panel-body text-center">
-					<h3>Articles</h3>
 					<ul>
 						{resultItems}
 					</ul>
@@ -29,9 +33,6 @@ class Results extends React.Component{
 		);
 	}
 }
-
-
-
 
 // Export the component back for use in other files
 export default Results;
