@@ -2,9 +2,9 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+import Main from './Components/Main.jsx';
+
 ReactDOM.render(
-	<div className='container'>
-		<h1>NYTimes Article Search</h1>
-	</div>,
+	<Main />,
 	document.getElementById('app')
 )
