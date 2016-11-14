@@ -4533,16 +4533,14 @@
 			key: 'render',
 			value: function render() {
 				var resultItems = this.props.results.map(function (result) {
-					var articleTitle = "";
-					if (result.headline.kicker) {
-						articleTitle = result.headline.kicker + "; ";
-					}
-					articleTitle += result.headline.main;
 					return _react2.default.createElement(_ResultItem2.default, {
 						key: result._id,
+						articleID: result._id,
+						articleHeadlineMain: result.headline.main,
+						articleHeadlineKicker: result.headline.kicker,
 						articleLink: result.web_url,
-						articleTitle: articleTitle,
-						articleAbstract: result.abstract || result.lead_paragraph
+						articleAbstract: result.abstract || result.lead_paragraph,
+						articlePubDate: result.pub_date
 					});
 				});
 				return _react2.default.createElement(
@@ -4578,7 +4576,7 @@
 /* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -4589,6 +4587,10 @@
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _helpers = __webpack_require__(38);
+
+	var _helpers2 = _interopRequireDefault(_helpers);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4601,32 +4603,56 @@
 	var ResultItem = function (_React$Component) {
 		_inherits(ResultItem, _React$Component);
 
-		function ResultItem() {
+		function ResultItem(props) {
 			_classCallCheck(this, ResultItem);
 
-			return _possibleConstructorReturn(this, (ResultItem.__proto__ || Object.getPrototypeOf(ResultItem)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (ResultItem.__proto__ || Object.getPrototypeOf(ResultItem)).call(this, props));
+
+			var fullTitle = "";
+			if (_this.props.articleHeadlineKicker) {
+				fullTitle = _this.props.articleHeadlineKicker + "; ";
+			}
+			fullTitle += _this.props.articleHeadlineMain;
+			_this.state = {
+				articleTitle: fullTitle
+			};
+
+			_this.handleClick = _this.handleClick.bind(_this);
+			return _this;
 		}
 
 		_createClass(ResultItem, [{
-			key: "render",
+			key: 'handleClick',
+			value: function handleClick() {
+				_helpers2.default.postSavedArticle(this.props.articleID, this.state.articleTitle, this.props.articleAbstract, this.props.articleLink, this.props.articlePubDate).then(function (response) {
+					console.log(response);
+				}.bind(this));
+			}
+		}, {
+			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
-					"li",
-					{ className: "list-group-item" },
+					'li',
+					{ className: 'list-group-item' },
 					_react2.default.createElement(
-						"h3",
-						{ className: "list-group-item-heading" },
-						this.props.articleTitle
+						'h3',
+						{ className: 'list-group-item-heading' },
+						this.state.articleTitle
 					),
 					_react2.default.createElement(
-						"p",
-						{ className: "list-group-item-text" },
+						'p',
+						{ className: 'list-group-item-text' },
 						this.props.articleAbstract
 					),
 					_react2.default.createElement(
-						"a",
-						{ className: "list-group-item-btn btn btn-info", href: this.props.articleLink, target: "_blank" },
-						"Read Article"
+						'a',
+						{ className: 'list-group-item-btn btn btn-info', href: this.props.articleLink, target: '_blank' },
+						'Read Article'
+					),
+					_react2.default.createElement(
+						'button',
+						{ className: 'list-group-item-btn btn btn-info', onClick: this.handleClick },
+						'Save Article'
 					)
 				);
 			}
@@ -4670,8 +4696,19 @@
 				console.log(response);
 				return response.data.response.docs;
 			});
+		},
+		postSavedArticle: function postSavedArticle(nyt_id, title, previewText, web_url, pub_date) {
+			return axios.post('/api/saved', {
+				nyt_id: nyt_id,
+				title: title,
+				previewText: previewText,
+				web_url: web_url,
+				pub_date: pub_date
+			}).then(function (response) {
+				console.log(response);
+				return response;
+			});
 		}
-
 	};
 
 	// We export the helpers function (which contains getGithubInfo)

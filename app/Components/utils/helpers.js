@@ -25,9 +25,19 @@ var helpers = {
 			console.log(response);
 			return response.data.response.docs;
 		});
-
+	},
+	postSavedArticle: function(nyt_id, title, previewText, web_url, pub_date) {
+		return axios.post('/api/saved', {
+			nyt_id: nyt_id,
+			title: title,
+			previewText: previewText,
+			web_url: web_url,
+			pub_date: pub_date
+		}).then(function(response){
+			console.log(response);
+			return response;
+		});
 	}
-
 }
 
 // We export the helpers function (which contains getGithubInfo)
