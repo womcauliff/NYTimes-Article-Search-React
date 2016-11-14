@@ -8,16 +8,14 @@ class Results extends React.Component{
 
 	render(){
 		var resultItems = this.props.results.map(function(result) {
-			var articleTitle = "";
-			if(result.headline.kicker) {
-				articleTitle = result.headline.kicker + "; ";
-			}
-			articleTitle += result.headline.main;
 			return <ResultItem 
 						key={result._id}
+						articleID={result._id}
+						articleHeadlineMain={result.headline.main}
+						articleHeadlineKicker={result.headline.kicker}
 						articleLink={result.web_url}
-						articleTitle={articleTitle}
 						articleAbstract={result.abstract || result.lead_paragraph}
+						articlePubDate={result.pub_date}
 					/>
 		});
 		return(
