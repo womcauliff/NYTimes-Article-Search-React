@@ -4541,7 +4541,8 @@
 					return _react2.default.createElement(_ResultItem2.default, {
 						key: result._id,
 						articleLink: result.web_url,
-						articleTitle: articleTitle
+						articleTitle: articleTitle,
+						articleAbstract: result.abstract || result.lead_paragraph
 					});
 				});
 				return _react2.default.createElement(
@@ -4551,19 +4552,15 @@
 						'div',
 						{ className: 'panel-heading' },
 						_react2.default.createElement(
-							'h3',
+							'h2',
 							{ className: 'panel-title text-center' },
 							'Results'
 						)
 					),
 					_react2.default.createElement(
-						'div',
-						{ className: 'panel-body text-center' },
-						_react2.default.createElement(
-							'ul',
-							null,
-							resultItems
-						)
+						'ul',
+						{ className: 'list-group' },
+						resultItems
 					)
 				);
 			}
@@ -4615,11 +4612,21 @@
 			value: function render() {
 				return _react2.default.createElement(
 					"li",
-					null,
+					{ className: "list-group-item" },
+					_react2.default.createElement(
+						"h3",
+						{ className: "list-group-item-heading" },
+						this.props.articleTitle
+					),
+					_react2.default.createElement(
+						"p",
+						{ className: "list-group-item-text" },
+						this.props.articleAbstract
+					),
 					_react2.default.createElement(
 						"a",
-						{ href: this.props.articleLink, target: "_blank" },
-						this.props.articleTitle
+						{ className: "list-group-item-btn btn btn-info", href: this.props.articleLink, target: "_blank" },
+						"Read Article"
 					)
 				);
 			}

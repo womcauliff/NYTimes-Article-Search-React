@@ -17,18 +17,17 @@ class Results extends React.Component{
 						key={result._id}
 						articleLink={result.web_url}
 						articleTitle={articleTitle}
+						articleAbstract={result.abstract || result.lead_paragraph}
 					/>
 		});
 		return(
 			<div className="panel panel-default">
 				<div className="panel-heading">
-					<h3 className="panel-title text-center">Results</h3>
+					<h2 className="panel-title text-center">Results</h2>
 				</div>
-				<div className="panel-body text-center">
-					<ul>
-						{resultItems}
-					</ul>
-				</div>
+				<ul className="list-group">
+					{resultItems}
+				</ul>
 			</div>
 		);
 	}
